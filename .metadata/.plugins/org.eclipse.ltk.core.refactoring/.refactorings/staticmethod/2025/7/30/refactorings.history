@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;wd.MathUtility&apos; to &apos;Math&apos;&#x0D;&#x0A;- Original project: &apos;staticmethod&apos;&#x0D;&#x0A;- Original element: &apos;wd.MathUtility&apos;&#x0D;&#x0A;- Renamed element: &apos;wd.Math&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;MathUtility&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;wd{Math.java[MathUtility" matchStrategy="1" name="Math" qualified="false" references="true" similarDeclarations="false" stamp="1753435535222" textual="false" version="1.0"/>
+</session>

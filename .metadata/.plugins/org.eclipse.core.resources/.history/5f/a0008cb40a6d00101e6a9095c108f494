@@ -1,0 +1,91 @@
+package collections;
+
+import java.util.HashSet;
+import java.util.Scanner;
+
+class Doctor {
+    String DoctorID;
+    String name;
+    String department;
+
+    public Doctor(String licenseNumber, String name, String department) {
+        this.DoctorID = licenseNumber;
+        this.name = name;
+        this.department = department;
+    }
+
+    // Equality based on license number only
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Doctor)) return false;
+        Doctor other = (Doctor) obj;
+        return this.DoctorID.equals(other.DoctorID);
+    }
+
+    @Override
+    public int hashCode() {
+        return DoctorID.hashCode();
+    }
+
+    public void display() {
+        System.out.println("License No: " + DoctorID + ", Name: " + name + ", Department: " + department);
+    }
+}
+
+public class DoctorRegistrationSystem {
+    public static void main(String[] args) {
+        HashSet<Doctor> doctorSet = new HashSet<>();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n--- 🏥 Doctor Registration System ---");
+            System.out.println("1. Register New Doctor");
+            System.out.println("2. View All Registered Doctors");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Clear newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter DoctorID : ");
+                    String license = scanner.nextLine();
+                    System.out.print("Enter Doctor Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Department: ");
+                    String dept = scanner.nextLine();
+
+                    Doctor newDoctor = new Doctor(license, name, dept);
+                    if (doctorSet.add(newDoctor)) {
+                        System.out.println("✅ Doctor registered successfully.");
+                    } else {
+                        System.out.println("❌ Doctor with license number '" + license + "' is already registered.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("\n📋 Registered Doctors:");
+                    if (doctorSet.isEmpty()) {
+                        System.out.println("No doctors registered yet.");
+                    } else {
+                        for (Doctor doc : doctorSet) {
+                            doc.display();
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting Doctor Registration System...");
+                    break;
+
+                default:
+                    System.out.println("⚠️ Invalid choice. Please try again.");
+            }
+
+        } while (choice != 3);
+
+        scanner.close();
+    }
+}

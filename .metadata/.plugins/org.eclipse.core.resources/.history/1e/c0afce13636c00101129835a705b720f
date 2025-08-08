@@ -1,0 +1,174 @@
+package collections;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Patient {
+	private String name;
+	private int age;
+	private String disease;
+
+	public Patient(String name, int age, String disease) {
+		this.name = name;
+		this.age = age;
+		this.disease = disease;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setDisease(String disease) {
+		this.disease = disease;
+	}
+
+	public void displayDetails() {
+		System.out.println("Name: " + name + " \nAge: " + age + "\nDisease: " + disease);
+	}
+}
+
+public class HospitalOPD {
+	public static void main(String[] args) {
+		ArrayList<Patients> patientList = new ArrayList<>();
+		Scanner scanner = new Scanner(System.in);
+
+		// Initial patients
+		patientList.add(new Patients("Vinay Bhat", 45, "Fever"));
+		patientList.add(new Patients("Sonali Langar", 40, "Cough"));
+		patientList.add(new Patients("Renu Sai", 30, "Pain"));
+
+		while (true) {
+			System.out.println("\n--- Hospital OPD Menu ---");
+			System.out.println("1. Add New Patient");
+			System.out.println("2. View All Patients");
+			System.out.println("3. View Patient by Index");
+			System.out.println("4. Update Patient Disease");
+			System.out.println("5. Remove Patient by Index");
+			System.out.println("6. Remove Patient by Name");
+			System.out.println("7. Check if Patient Exists");
+			System.out.println("8. Search Patient by Name");
+			System.out.println("9. Exit");
+			System.out.print("Enter your choice: ");
+			int choice = scanner.nextInt();
+			scanner.nextLine(); // consume newline
+
+			switch (choice) {
+				case 1:
+					System.out.print("Enter patient name: ");
+					String name = scanner.nextLine();
+					System.out.print("Enter patient age: ");
+					int age = scanner.nextInt();
+					scanner.nextLine(); // consume newline
+					System.out.print("Enter disease: ");
+					String disease = scanner.nextLine();
+					patientList.add(new Patients(name, age, disease));
+					System.out.println("Patient added successfully!");
+					break;
+
+				case 2:
+					System.out.println("All Registered Patients:");
+					for (Patients p : patientList) {
+						p.displayDetails();
+						System.out.println("-----------");
+					}
+					break;
+
+				case 3:
+					System.out.print("Enter patient index: ");
+					int index = scanner.nextInt();
+					if (index >= 0 && index < patientList.size()) {
+						patientList.get(index).displayDetails();
+					} else {
+						System.out.println("Invalid index!");
+					}
+					break;
+
+				case 4:
+					System.out.print("Enter patient name to update disease: ");
+					String updateName = scanner.nextLine();
+					boolean updated = false;
+					for (Patients p : patientList) {
+						if (p.getName().equalsIgnoreCase(updateName)) {
+							System.out.print("Enter new disease: ");
+							String newDisease = scanner.nextLine();
+							p.setDisease(newDisease);
+							System.out.println("Disease updated!");
+							updated = true;
+							break;
+						}
+					}
+					if (!updated) {
+						System.out.println("Patient not found!");
+					}
+					break;
+
+				case 5:
+					System.out.print("Enter patient index to remove: ");
+					int removeIndex = scanner.nextInt();
+					if (removeIndex >= 0 && removeIndex < patientList.size()) {
+						patientList.remove(removeIndex);
+						System.out.println("Patient removed!");
+					} else {
+						System.out.println("Invalid index!");
+					}
+					break;
+
+				case 6:
+					System.out.print("Enter patient name to remove: ");
+					String removeName = scanner.nextLine();
+					boolean removed = false;
+					for (int i = 0; i < patientList.size(); i++) {
+						if (patientList.get(i).getName().equalsIgnoreCase(removeName)) {
+							patientList.remove(i);
+							System.out.println("Patient removed!");
+							removed = true;
+							break;
+						}
+					}
+					if (!removed) {
+						System.out.println("Patient not found!");
+					}
+					break;
+
+				case 7:
+					System.out.print("Enter patient name to check existence: ");
+					String checkName = scanner.nextLine();
+					boolean exists = false;
+					for (Patients p : patientList) {
+						if (p.getName().equalsIgnoreCase(checkName)) {
+							System.out.println("Patient exists!");
+							exists = true;
+							break;
+						}
+					}
+					if (!exists) {
+						System.out.println("No such patient found.");
+					}
+					break;
+
+				case 8:
+					System.out.print("Enter patient name to search: ");
+					String searchName = scanner.nextLine();
+					boolean found = false;
+					for (Patients p : patientList) {
+						if (p.getName().equalsIgnoreCase(searchName)) {
+							p.displayDetails();
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						System.out.println("No patient found with name: " + searchName);
+					}
+					break;
+
+				case 9:
+					System.out.println("Exiting...");
+					scanner.close();
+					return;
+
+				default:
+					System.out.println("Invalid choice!");
+			}
+		}
+	}
+}

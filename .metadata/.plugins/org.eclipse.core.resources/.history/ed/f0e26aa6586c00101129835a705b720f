@@ -1,0 +1,163 @@
+package collections;
+
+import java.util.LinkedList;
+import java.util.Scanner;
+
+// * Added Patient class to store ID and name
+class Patient { 
+    private String id; 
+    private String name; 
+
+    public Patient(String id, String name) { 
+        this.id = id; // *
+        this.name = name; // *
+    }
+
+    public String getId() { // *
+        return id; // *
+    }
+
+    public String getName() { // *
+        return name; // *
+    }
+
+    public String toString() { // *
+        return "[ID: " + id + ", Name: " + name + "]"; // *
+    }
+}
+
+public class PatientQueueDemo {
+
+    public static void main(String[] args) {
+        LinkedList<Patient> patientQueue = new LinkedList<>(); // * changed to LinkedList<Patient>
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n🏥 Hospital Patient Queue Menu:"); // *
+            System.out.println("1. Add New Patient (normal)");
+            System.out.println("2. Add Emergency Patient");
+            System.out.println("3. Remove Patient by ID"); // *
+            System.out.println("4. View All Patients");
+            System.out.println("5. View First and Last Patient");
+            System.out.println("6. Search Patient by ID"); // *
+            System.out.println("7. Clear Entire Queue"); // *
+            System.out.println("8. Exit"); // *
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Patient ID: "); // *
+                    String id = sc.nextLine(); // *
+                    if (isDuplicate(patientQueue, id)) { // *
+                        System.out.println("❌ Patient with this ID already exists."); // *
+                        break; // *
+                    }
+                    System.out.print("Enter Patient Name: "); // *
+                    String name = sc.nextLine(); // *
+                    patientQueue.addLast(new Patient(id, name)); // *
+                    System.out.println("✅ Patient added to queue."); // *
+                    break;
+
+                case 2:
+                    System.out.print("Enter Emergency Patient ID: "); // *
+                    String eid = sc.nextLine(); // *
+                    if (isDuplicate(patientQueue, eid)) { // *
+                        System.out.println("❌ Patient with this ID already exists."); // *
+                        break; // *
+                    }
+                    System.out.print("Enter Emergency Patient Name: "); // *
+                    String ename = sc.nextLine(); // *
+                    patientQueue.addFirst(new Patient(eid, ename)); // *
+                    System.out.println("🚨 Emergency patient added to front."); // *
+                    break;
+
+                case 3:
+                    System.out.print("Enter Patient ID to remove: "); // *
+                    String removeId = sc.nextLine(); // *
+                    boolean removed = removePatientById(patientQueue, removeId); // *
+                    if (removed) // *
+                        System.out.println("✅ Patient removed."); // *
+                    else
+                        System.out.println("❌ Patient with ID not found."); // *
+                    break;
+
+                case 4:
+                    if (patientQueue.isEmpty()) {
+                        System.out.println("📭 Queue is empty."); // *
+                    } else {
+                        System.out.println("📋 Current Queue:"); // *
+                        for (Patient p : patientQueue) // *
+                            System.out.println(p); // *
+                    }
+                    break;
+
+                case 5:
+                    if (!patientQueue.isEmpty()) {
+                        System.out.println("🔝 First: " + patientQueue.getFirst()); // *
+                        System.out.println("🔚 Last: " + patientQueue.getLast()); // *
+                    } else {
+                        System.out.println("📭 Queue is empty."); // *
+                    }
+                    break;
+
+                case 6:
+                    System.out.print("Enter Patient ID to search: "); // *
+                    String searchId = sc.nextLine(); // *
+                    Patient found = searchPatientById(patientQueue, searchId); // *
+                    if (found != null)
+                        System.out.println("🔍 Found: " + found); // *
+                    else
+                        System.out.println("❌ Patient with ID not found."); // *
+                    break;
+
+                case 7:
+                    patientQueue.clear(); // *
+                    System.out.println("🧹 Entire queue cleared."); // *
+                    break;
+
+                case 8:
+                    System.out.println("👋 Exiting..."); // *
+                    break;
+
+                default:
+                    System.out.println("❌ Invalid choice.");
+            }
+        } while (choice != 8); // *
+
+        sc.close();
+    }
+
+    // * Helper method to check for duplicate ID
+    private static boolean isDuplicate(LinkedList<Patient> queue, String id) { // *
+        for (Patient p : queue) { // *
+            if (p.getId().equalsIgnoreCase(id)) { // *
+                return true; // *
+            }
+        }
+        return false; // *
+    }
+
+    // * Helper method to remove patient by ID
+    private static boolean removePatientById(LinkedList<Patient> queue, String id) { // *
+        for (Patient p : queue) { // *
+            if (p.getId().equalsIgnoreCase(id)) { // *
+                queue.remove(p); // *
+                return true; // *
+            }
+        }
+        return false; // *
+    }
+
+    // * Helper method to search patient by ID
+    private static Patient searchPatientById(LinkedList<Patient> queue, String id) { // *
+        for (Patient p : queue) { // *
+            if (p.getId().equalsIgnoreCase(id)) { // *
+                return p; // *
+            }
+        }
+        return null; // *
+    }
+}

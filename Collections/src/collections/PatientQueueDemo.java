@@ -1,0 +1,109 @@
+package collections;
+
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.Iterator;
+
+public class PatientQueueDemo {
+    public static void main(String[] args) {
+
+        LinkedList<String> patientQueue = new LinkedList<>();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n Hospital Patient Queue:");
+            System.out.println("1. Add New Patient (normal)");
+            System.out.println("2. Add Emergency Patient");
+            System.out.println("3. Remove Patient");
+            System.out.println("4. View All Patients");
+            System.out.println("5. View First and Last Patient");
+            System.out.println("6. Search Patient by Name *"); // New
+            System.out.println("7. Count Total Patients *");   // New
+            System.out.println("8. Clear Entire Queue *");     // New
+            System.out.println("9. Display Reverse Queue *");  // New
+            System.out.println("10. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter patient name: ");
+                    String patient = sc.nextLine();
+                    patientQueue.addLast(patient);
+                    System.out.println("✅ Added to queue.");
+                    break;
+
+                case 2:
+                    System.out.print("Enter emergency patient name: ");
+                    String emergencyPatient = sc.nextLine();
+                    patientQueue.addFirst(emergencyPatient);
+                    System.out.println("🚨 Emergency patient added to front.");
+                    break;
+
+                case 3:
+                    if (!patientQueue.isEmpty()) {
+                        String removed = patientQueue.removeFirst();
+                        System.out.println("❌ Removed patient: " + removed);
+                    } else {
+                        System.out.println("⚠️ No patients in queue.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("📋 Current Queue: " + patientQueue);
+                    break;
+
+                case 5:
+                    if (!patientQueue.isEmpty()) {
+                        System.out.println("👤 First: " + patientQueue.getFirst());
+                        System.out.println("👤 Last: " + patientQueue.getLast());
+                    } else {
+                        System.out.println("⚠️ Queue is empty.");
+                    }
+                    break;
+
+                case 6: // 🔹 New Feature: Search by Name
+                    System.out.print(" Enter patient name to search: ");
+                    String nameToSearch = sc.nextLine();
+                    if (patientQueue.contains(nameToSearch)) {
+                        System.out.println(" Patient found in queue.");
+                    } else {
+                        System.out.println("❌ Patient not found.");
+                    }
+                    break;
+
+                case 7: // 🔹 New Feature: Count Patients
+                    System.out.println("👥 Total patients in queue: " + patientQueue.size());
+                    break;
+
+                case 8: // 🔹 New Feature: Clear Queue
+                    patientQueue.clear();
+                    System.out.println("🧹 Queue cleared.");
+                    break;
+
+                case 9: // 🔹 New Feature: Display in Reverse
+                    if (!patientQueue.isEmpty()) {
+                        System.out.println("🔁 Queue in Reverse Order:");
+                        Iterator<String> revIterator = patientQueue.descendingIterator();
+                        while (revIterator.hasNext()) {
+                            System.out.println("👤 " + revIterator.next());
+                        }
+                    } else {
+                        System.out.println("⚠️ Queue is empty.");
+                    }
+                    break;
+
+                case 10:
+                    System.out.println("🚪 Exiting...");
+                    break;
+
+                default:
+                    System.out.println("❗ Invalid Choice.");
+            }
+        } while (choice != 10);
+
+        sc.close();
+    }
+}
